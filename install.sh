@@ -24,22 +24,14 @@ ENTRY_POINT="${INSTALL_DIR}/dist/index.js"
 echo ""
 echo "Build complete."
 echo ""
-echo "Add the following to your Claude Code MCP settings"
-echo "(~/.claude/settings.json or .claude/settings.json):"
+
+# Register the MCP server with Claude Code
+echo "Registering Roboflow MCP server with Claude Code..."
+claude mcp add-json -s user roboflow '{"command":"node","args":["'"${ENTRY_POINT}"'"],"env":{"ROBOFLOW_API_KEY":"${ROBOFLOW_API_KEY}"}}'
+
 echo ""
-cat <<CONF
-{
-  "mcpServers": {
-    "roboflow": {
-      "command": "node",
-      "args": ["${ENTRY_POINT}"],
-      "env": {
-        "ROBOFLOW_API_KEY": "YOUR_API_KEY_HERE"
-      }
-    }
-  }
-}
-CONF
+echo "MCP server registered. Set your API key with:"
+echo "  export ROBOFLOW_API_KEY=your_key_here"
 echo ""
 echo "Get your API key at https://app.roboflow.com/settings/api"
 echo "Done."
